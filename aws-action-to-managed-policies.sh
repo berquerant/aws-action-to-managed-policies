@@ -91,24 +91,24 @@ Name
   aws-action-to-managed-policies.sh - search aws managed policies by action
 
 SYNOPSIS
-  aws-action-to-managed-policies.sh [--prune-list] [--prune-policies] [--prune] [--fetch] [--detail] [--verbose] [GREP_OPTIONS] WORD
+  aws-action-to-managed-policies.sh [-hlspfvd] [-- GREP_OPTIONS] WORD
 
-  --prune-list
+  -l
     remove cached managed policy list
 
-  --prune-policies
+  -s
     remove cached managed policies
 
-  --prune
+  -p
     --prune-list and --prune-policies
 
-  --fetch
+  -f
     download policy list and policies
 
-  --detail
+  -v
     display matched actions
 
-  --dump
+  -d
     display matched policy documents in the following format:
 
     {
@@ -143,31 +143,31 @@ main() {
     download_policies=0
     search_detail=0
     search_dump=0
-    if [ "$1" = "--prune-list" ] ; then
-        clear_list_cache=1
-        shift
-    fi
-    if [ "$1" = "--prune-policies" ] ; then
-        clear_policies_cache=1
-        shift
-    fi
-    if [ "$1" = "--prune" ] ; then
-        clear_list_cache=1
-        clear_policies_cache=1
-        shift
-    fi
-    if [ "$1" = "--fetch" ] ; then
-        download_policies=1
-        shift
-    fi
-    if [ "$1" = "--detail" ] ; then
-        search_detail=1
-        shift
-    fi
-    if [ "$1" = "--dump" ] ; then
-        search_dump=1
-        shift
-    fi
+
+    while getopts "lspfvd" OPT ; do
+        case "$OPT" in
+            l)
+                clear_list_cache=1
+                ;;
+            s)
+                clear_policies_cache=1
+                ;;
+            p)
+                clear_list_cache=1
+                clear_policies_cache=1
+                ;;
+            f)
+                download_policies=1
+                ;;
+            v)
+                search_detail=1
+                ;;
+            d)
+                search_dump=1
+                ;;
+        esac
+    done
+    shift $(($OPTIND - 1))
 
     if [ "$clear_list_cache" = 1 ] ; then
         remove_list_policies_cache

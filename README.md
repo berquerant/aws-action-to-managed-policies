@@ -6,24 +6,24 @@ Name
   aws-action-to-managed-policies.sh - search aws managed policies by action
 
 SYNOPSIS
-  aws-action-to-managed-policies.sh [--prune-list] [--prune-policies] [--prune] [--fetch] [--detail] [--verbose] [GREP_OPTIONS] WORD
+  aws-action-to-managed-policies.sh [-hlspfvd] [-- GREP_OPTIONS] WORD
 
-  --prune-list
+  -l
     remove cached managed policy list
 
-  --prune-policies
+  -s
     remove cached managed policies
 
-  --prune
+  -p
     --prune-list and --prune-policies
 
-  --fetch
+  -f
     download policy list and policies
 
-  --detail
+  -v
     display matched actions
 
-  --dump
+  -d
     display matched policy documents in the following format:
 
     {
